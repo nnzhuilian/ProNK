@@ -1,0 +1,36 @@
+<html>
+<body>
+<pre>
+    #*
+    注释
+    *#
+    $!{value1}##‘!’若变量不存在，强制为空
+    $!{colors}
+    #foreach($color in $colors)##for循环
+        this is color:$color $!{foreach.index},$!{foreach.count}##循环递增数字
+    #end
+    #foreach($m in $map.entrySet())
+        Number: $m.key,$m.value
+    #end
+    $!{user.name}##可以调用类中的方法，若有get方法，可直接.成员对象调用，若调用方法，则直接调用方法。
+    $!{user.test()}
+
+    #set($title="mycode")//设置变量并输出
+    Title:$!{title}
+
+    #parse("header.html")##将代码包含到此位置并解析
+    #include("header.html")##将代码包含到此位置不解析，方法都是括号，！后才是中括号
+
+    #macro(render_color,$index,$color)##定义一个宏，可在下文引用
+        Color render:$index,$color
+    #end
+    #foreach($color in $colors)
+        #render_color($foreach.index,$color)##引用宏
+    #end
+
+    #set($helloworld1="$!{title} world")## $后为变量 “”解析，‘’不解析
+    $helloworld1
+
+</pre>
+</body>
+</html>

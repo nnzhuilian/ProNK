@@ -1,7 +1,17 @@
 package com.hxh.Quesan.controller;
 
+import com.hxh.Quesan.model.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller//加一个注解，注明这是一个controller
 public class IndexController {
@@ -22,7 +32,20 @@ public class IndexController {
         return String.format("Profile id of %s / %d, t:%d, k: %s",groupid, userid,type,key);
     }
     @RequestMapping(path={"/vm"},method = {RequestMethod.GET})
-    public String template(){
+    public String template(Model model){//通过model传递数据到模板
+        model.addAttribute("value1","hahahahaha!");//将value传递到页面
+        List<String> colors=Arrays.asList(new String[]{"red","blue","green"});
+        model.addAttribute("colors",colors);
+        Map<Integer,String> map=new HashMap<Integer,String>();
+        map.put(1,"a");
+        map.put(2,"b");
+        model.addAttribute("map",map);
+        model.addAttribute("user",new User("hxh",3));
         return "home";
     }
+    @RequestMapping(path={"/request"},method = {RequestMethod.GET})
+    public String request(Model model, HttpServletResponse response, HttpServletRequest request, HttpSession httpsession){
+        return "";
+    }
+
 }
