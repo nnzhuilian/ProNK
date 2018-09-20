@@ -44,7 +44,7 @@ public class IndexController {
         map.put(1,"a");
         map.put(2,"b");
         model.addAttribute("map",map);
-        model.addAttribute("user",new User("hxh",3));
+     //   model.addAttribute("user",new User("hxh",3));
         return "home";
     }
     @RequestMapping(path={"/request"},method = {RequestMethod.GET})
