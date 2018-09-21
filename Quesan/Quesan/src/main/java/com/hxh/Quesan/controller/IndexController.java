@@ -25,7 +25,7 @@ public class IndexController {
     QuestionService questionService;
 
 private  List<ViewObject> getVos(int userId,int offset,int limit){
-    List<Question> ques=questionService.getLatestQuestion(0,0,10);
+    List<Question> ques=questionService.getLatestQuestion(userId,offset,limit);
     List<ViewObject> vos=new ArrayList<ViewObject>();
     for(Question que:ques){
         ViewObject vo=new ViewObject();
@@ -40,7 +40,7 @@ private  List<ViewObject> getVos(int userId,int offset,int limit){
     model.addAttribute("VOS",getVos(0,0,10));
     return "index";
 }
-@RequestMapping(path={"/user/userId"},method = {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(path={"/user/{userId}"},method = {RequestMethod.GET,RequestMethod.POST})
     public String userIndex(Model model, @PathVariable("userId") int userId){
     model.addAttribute("VOS",getVos(userId,0,10));
     return "index";
