@@ -28,7 +28,7 @@
                                                     <span class="label sr-only">赞同</span></button>
                                             </div>
                                             <div class="author-info">
-                                                <a href="/user/$!{vo.user.id}"  class="name">$!{vo.user.name}$!{vo.user.password}</a>，$!{vo.question.createdDate}</div>
+                                                <a href="/user/$!{vo.user.id}"  class="name">$!{vo.user.name}$!{vo.user.password}</a>，$date.format('yyyy-MM-dd HH:mm:ss',$!{vo.question.createdDate})</div>
                                             <div class="zm-item-vote-info" data-votecount="1082" data-za-module="VoteInfo">
                                                 <span class="voters text">
                                                     <a href="#" class="more text">

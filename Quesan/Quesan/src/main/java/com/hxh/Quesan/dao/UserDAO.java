@@ -10,6 +10,8 @@ public interface UserDAO {
     int addUser(User user);
     @Select({"select id,name,password,salt,head_url from user where id=#{id}"})
     User selectById(int id);
+    @Select({"select id,name,password,salt,head_url from user where name=#{name}"})
+    User selectByName(String name);
     @Update({"update user set password=#{password} where id=#{id}"})
     void updatePassword(User user);
     @Delete({"delete from user where id=#{id}"})
