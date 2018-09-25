@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Aspect//注解表示这是个切面
-@Component//将对象通过依赖注入的方式给service
+@Component//将对象通过依赖注入的方式给service    Spring 注解@Component等效于@Service,@Controller,@Repository
 public class LogAspect {//对所有访问Indexcontroller的方法做切面截获
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 

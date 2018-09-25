@@ -1,4 +1,9 @@
 IOC注入。@Service-@Autowired
 例service_IOCtest,indexController
+Spring 注解@Component等效于@Service,@Controller,@Repository
 
-AOC/Log 面向切面的编程 思想：设计框架的时候留一些切口
+AOC/Log 面向切面的编程 思想：设计框架的时候留一些切口 （可以获取数据）
+拦截器（课程4）HandlerInterceptor
+
+ThreadLocal 每个线程都有一个拷贝，每个线程读取的变量是不同的，但是访问的公共接口是一样的。为每一条线程分配一个对象。
+先创建Handler,再将handler注册到WebMvcConfiguration中。
