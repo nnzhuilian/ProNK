@@ -6,7 +6,6 @@ import com.hxh.Quesan.dao.UserDAO;
 import com.hxh.Quesan.model.HostHolder;
 import com.hxh.Quesan.model.LoginTicket;
 import com.hxh.Quesan.model.User;
-import com.hxh.Quesan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -29,7 +28,7 @@ public class PassportInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String ticket=null;
         for(Cookie cookie:httpServletRequest.getCookies()){
-            if(cookie.getName()=="ticket"){
+            if(cookie.getName().equals("ticket")){
                 ticket=cookie.getValue();
                 break;
             }
