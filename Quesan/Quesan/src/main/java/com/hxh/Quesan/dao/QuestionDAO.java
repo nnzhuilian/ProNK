@@ -4,6 +4,7 @@ import com.hxh.Quesan.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public interface QuestionDAO {
                                          @Param("offset") int offset,
                                          @Param("limit") int limit
     );
+    @Select({"select id,title,content,created_date,user_id,comment_count from question where id=#{id}"})
+    Question selectById(int id);
 
 
 }
