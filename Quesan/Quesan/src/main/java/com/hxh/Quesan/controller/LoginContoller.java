@@ -25,7 +25,7 @@ public class LoginContoller {
     @RequestMapping(path={"/register/"},method = {RequestMethod.POST})
     public String register(Model model,
                         @RequestParam("username") String username,
-                        @RequestParam("password") String password,
+                        @RequestParam("password") String password,//与前台提交name=“”对应
                         @RequestParam("next") String next,
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse httpServletResponse){
