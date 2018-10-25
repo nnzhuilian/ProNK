@@ -1,10 +1,7 @@
 package com.hxh.Quesan.dao;
 
 import com.hxh.Quesan.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -18,6 +15,7 @@ public interface QuestionDAO {
     );
     @Select({"select id,title,content,created_date,user_id,comment_count from question where id=#{id}"})
     Question selectById(int id);
-
+    @Update({"update question set comment_count=#{commentCount} where id=#{id}"})
+    int updateCommentCount(@Param("commentCount") int commentCount,@Param("id") int id);
 
 }

@@ -29,4 +29,7 @@ public class QuestionService {
         question.setTitle(sensivtiveService.filter(question.getTitle()));///////////////////过滤敏感词
         return questionDAO.addQuestion(question)>0?question.getId():0;
     }
+    public int setCommentcount(int commentcount,int id){
+        return questionDAO.updateCommentCount(commentcount,id);
+    }
 }

@@ -22,7 +22,7 @@ public class LoginContoller {
 @Autowired
     UserService userService;
 
-    @RequestMapping(path={"/register/"},method = {RequestMethod.POST})
+    @RequestMapping(path={"/reg/"},method = {RequestMethod.POST})
     public String register(Model model,
                         @RequestParam("username") String username,
                         @RequestParam("password") String password,//与前台提交name=“”对应

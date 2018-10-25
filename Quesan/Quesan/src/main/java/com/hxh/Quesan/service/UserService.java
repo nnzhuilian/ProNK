@@ -77,6 +77,9 @@ public class UserService {
         loginTicketDAO.addTicket(ticket);
         return ticket.getTicket();
     }
+    public User selectByName(String name){
+        return userDAO.selectByName(name);
+    }
     public void setTicketStatus(String ticket){
         loginTicketDAO.updateStatus(ticket,1);
     }

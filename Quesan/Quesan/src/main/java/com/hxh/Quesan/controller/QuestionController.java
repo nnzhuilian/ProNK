@@ -1,7 +1,7 @@
 package com.hxh.Quesan.controller;
 
-import com.hxh.Quesan.model.HostHolder;
-import com.hxh.Quesan.model.Question;
+import com.hxh.Quesan.model.*;
+import com.hxh.Quesan.service.CommentService;
 import com.hxh.Quesan.service.QuestionService;
 import com.hxh.Quesan.service.UserService;
 import com.hxh.Quesan.util.Jsonpro;
@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class QuestionController {
@@ -22,6 +24,8 @@ public class QuestionController {
     HostHolder hostHolder;
     @Autowired
     UserService userService;
+    @Autowired
+    CommentService commentService;
     private static final Logger logger=LoggerFactory.getLogger(QuestionController.class);
     @RequestMapping(value = {"question/add"},method = RequestMethod.POST)
     @ResponseBody
@@ -46,10 +50,19 @@ public class QuestionController {
         return Jsonpro.getJsonString(1,"失败");
     }
     @RequestMapping(path = {"/question/{qid}"},method = RequestMethod.GET)
-    public String questionDetail(Model model,@RequestParam("qid") int qid){
+    public String questionDetail(Model model,@PathVariable("qid") int qid){
         Question question=questionService.getQuestion(qid);
         model.addAttribute("question",question);
-        model.addAttribute("user",userService.getUser(question.getUserId()));
+        //model.addAttribute("user",userService.getUser(question.getUserId()));
+        List<Comment> comments= commentService.getComments(qid,EntityType.Comment_to_Question);
+        List<ViewObject> Vos=new ArrayList<>();
+        for(Comment comment:comments){
+        ViewObject vo=new ViewObject();
+        vo.set("comment",comment);
+        vo.set("user",userService.getUser(comment.getUserId()));
+        Vos.add(vo);
+        }
+        model.addAttribute("comments",Vos);
         return "detail";
     }
 
