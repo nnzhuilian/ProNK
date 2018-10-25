@@ -18,6 +18,6 @@ public interface MessageDAO {
     List<Message> getConversationList(@Param("userId") int userId,@Param("offset") int offset,@Param("limit") int limit);
     @Select({"select count(id) from message where has_read=0 and to_id=#{userId} and conversation_id=#{conversationId}"})
     int getConversationUnreadCount(@Param("userId") int userId,@Param("conversationId") String conversationId);
-    /*@Update({"update message set has_read=1 where to_id=#{toId}"})
-    void setMessageReadState(int toId);*/
+    @Update({"update message set has_read=1 where to_id=#{toId}"})
+    void setMessageReadState(int toId);
 }

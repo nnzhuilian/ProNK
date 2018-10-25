@@ -82,6 +82,7 @@ public class MessageController {
     @RequestMapping(path = {"msg/detail"},method = RequestMethod.GET)
     public String getConversationDetail(Model model, @Param("conversationId") String conversationId){
         try{
+            messageService.setMessageReadState(hostHolder.getUser().getId());
             List<Message> messages=messageService.getConversationDetail(conversationId,0,10);
             List<ViewObject> VOS=new ArrayList<>();
             for(Message message:messages){
