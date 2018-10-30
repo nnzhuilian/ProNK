@@ -2,6 +2,7 @@ package com.hxh.Quesan.controller;
 
 import com.hxh.Quesan.model.*;
 import com.hxh.Quesan.service.CommentService;
+import com.hxh.Quesan.service.LikeService;
 import com.hxh.Quesan.service.QuestionService;
 import com.hxh.Quesan.service.UserService;
 import com.hxh.Quesan.util.Jsonpro;
@@ -26,6 +27,8 @@ public class QuestionController {
     UserService userService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    LikeService likeService;
     private static final Logger logger=LoggerFactory.getLogger(QuestionController.class);
     @RequestMapping(value = {"question/add"},method = RequestMethod.POST)
     @ResponseBody
@@ -60,6 +63,12 @@ public class QuestionController {
         ViewObject vo=new ViewObject();
         vo.set("comment",comment);
         vo.set("user",userService.getUser(comment.getUserId()));
+        vo.set("likeCount",likeService.getCount(EntityType.Comment_to_Comment,comment.getId()));
+        if(hostHolder.getUser()==null){
+            vo.set("liked",0);
+        }else{
+            vo.set("liked",likeService.getLikeState(hostHolder.getUser().getId(),EntityType.Comment_to_Comment,comment.getId()));
+        }
         Vos.add(vo);
         }
         model.addAttribute("comments",Vos);
