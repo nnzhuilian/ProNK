@@ -11,7 +11,32 @@ import redis.clients.jedis.JedisPool;
 public class JedisAdapter implements InitializingBean {
     private static final Logger logger=LoggerFactory.getLogger(JedisAdapter.class);
 private JedisPool jedisPool;
-    @Override
+   /* public static void print(int index, Object obj) {
+        System.out.println(String.format("%d, %s", index, obj.toString()));
+    }
+
+    public static void main(String[] argv) {
+        Jedis jedis = new Jedis("redis://localhost:6379/1");
+        jedis.flushDB();
+
+        // get set
+        jedis.set("hello", "world");
+        print(1, jedis.get("hello"));
+        jedis.rename("hello", "newhello");
+        print(1, jedis.get("newhello"));
+        jedis.setex("hello2", 1800, "world");
+
+        //
+        jedis.set("pv", "100");
+        jedis.incr("pv");
+        jedis.incrBy("pv", 5);
+        print(2, jedis.get("pv"));
+        jedis.decrBy("pv", 2);
+        print(2, jedis.get("pv"));
+
+        print(3, jedis.keys("*"));}*/
+
+@Override
     public void afterPropertiesSet() throws Exception {
         jedisPool=new JedisPool("redis://localhost:6379/1");
     }

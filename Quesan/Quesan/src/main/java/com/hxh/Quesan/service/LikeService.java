@@ -3,7 +3,9 @@ package com.hxh.Quesan.service;
 import com.hxh.Quesan.util.JedisAdapter;
 import com.hxh.Quesan.util.RedisKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LikeService {
     @Autowired
     JedisAdapter jedisAdapter;
