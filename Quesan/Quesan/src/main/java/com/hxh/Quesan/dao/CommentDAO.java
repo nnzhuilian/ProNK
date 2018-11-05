@@ -15,4 +15,6 @@ public interface CommentDAO {///////接口呀
     int getCommentcount(@Param("entityId") int entityId,@Param("entityType") int entityType);
     @Update({"update status=#{status} where id=#{id}"})
     int updateStatus(@Param("commentId") int commentId,@Param("status") int status);
+    @Select({"select id,content,user_id,entity_id,entity_type,created_date,status from comment where id=#{id}"})
+    Comment getCommentById(int id);
 }

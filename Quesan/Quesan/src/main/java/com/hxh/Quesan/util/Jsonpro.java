@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 public class Jsonpro {
     private static final Logger logger = LoggerFactory.getLogger(Jsonpro.class);
     public static int ANONYMOUS_UERID=3;
+    public static int ADMIN_UERID=1;
     public static String getJsonString(int code,String msg) {
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("code",code);

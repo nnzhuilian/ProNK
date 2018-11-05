@@ -28,4 +28,7 @@ public int addComment(Comment comment){
 public boolean deleteComment(int id){
     return commentDAO.updateStatus(id,1)>0;
 }
+public Comment getCommentById(int commentid){
+    return commentDAO.getCommentById(commentid);
+}
 }

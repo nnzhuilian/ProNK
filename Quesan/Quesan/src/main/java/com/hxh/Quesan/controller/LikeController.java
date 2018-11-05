@@ -1,8 +1,14 @@
 package com.hxh.Quesan.controller;
 
+import com.hxh.Quesan.async.EventModel;
+import com.hxh.Quesan.async.EventProducer;
+import com.hxh.Quesan.async.EventType;
+import com.hxh.Quesan.model.Comment;
 import com.hxh.Quesan.model.EntityType;
 import com.hxh.Quesan.model.HostHolder;
+import com.hxh.Quesan.service.CommentService;
 import com.hxh.Quesan.service.LikeService;
+import com.hxh.Quesan.service.QuestionService;
 import com.hxh.Quesan.util.Jsonpro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +23,12 @@ public class LikeController {
     HostHolder hostHolder;
     @Autowired
     LikeService likeService;
+    @Autowired
+    EventProducer eventProducer;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    QuestionService questionService;
 
     @RequestMapping(path = {"/like"},method = RequestMethod.POST)
     @ResponseBody
@@ -24,6 +36,13 @@ public class LikeController {
         if(hostHolder.getUser()==null){
             return Jsonpro.getJsonString(999);
         }
+        Comment comment=commentService.getCommentById(commentId);
+        eventProducer.fireEvent(new EventModel(EventType.LIKE).
+                setActorId(hostHolder.getUser().getId()).
+                setEntityId(commentId).
+                setEntityType(EntityType.Comment_to_Comment).
+                setExt("questionId",String.valueOf(comment.getEntityId())).
+                setEntityOwnerId(comment.getUserId()));
         long likecount = likeService.like(hostHolder.getUser().getId(),EntityType.Comment_to_Comment,commentId);
         return Jsonpro.getJsonString(0,String.valueOf(likecount));
     }
