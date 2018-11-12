@@ -6,6 +6,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 import java.util.List;
 
@@ -127,5 +128,22 @@ private JedisPool jedisPool;
         }
         return 0;
     }
+    public Jedis getJedis(){
+        try {
+            return jedisPool.getResource();
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public Transaction getMulti(Jedis jedis){
+        try{
+            return jedis.multi();
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+
 
 }
