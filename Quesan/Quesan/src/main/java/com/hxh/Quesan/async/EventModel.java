@@ -20,6 +20,15 @@ public class EventModel {//event
         this.eventType = eventType;
     }
 
+    public EventModel setExt(String key,String value) {
+        exts.put(key, value);
+        return this;
+    }
+
+    public String getExt(String key) {
+        return exts.get(key);
+    }
+
     public int getEntityType() {
         return entityType;
     }
@@ -42,6 +51,9 @@ public class EventModel {//event
         return eventType;
     }
 
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
 
     public int getActorId() {
         return actorId;
@@ -70,14 +82,7 @@ public class EventModel {//event
         this.exts = exts;
     }
 
-    public String getExt(String key) {
-        return exts.get(key);
-    }
 
-    public EventModel setExt(String key,String value) {
-        exts.put(key, value);
-        return this;
-    }
 
 
 }

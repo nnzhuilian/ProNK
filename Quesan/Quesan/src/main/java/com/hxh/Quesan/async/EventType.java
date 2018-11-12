@@ -10,4 +10,8 @@ public enum EventType {
     EventType(int value){
         this.value=value;
     }
+
+    public int getValue() {
+        return value;
+    }
 }

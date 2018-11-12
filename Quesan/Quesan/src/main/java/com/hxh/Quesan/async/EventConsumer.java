@@ -36,6 +36,7 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                 for (EventType eventType:eventTypes){
                     if(!config.containsKey(eventType)){
                     config.put(eventType,new ArrayList<EventHandler>());//若config中没有这个事件类型，则加入
+                        logger.info("加入类型"+eventType.getValue());
                     }
                     config.get(eventType).add(entry.getValue());//为事件类型关联多个事件处理器。
                 }
@@ -47,11 +48,15 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                 while (true){
                     String key=RedisKey.getEventqueueKey();
                     List<String> events=jedisAdapter.brpop(0,key);////弹出两个数，一个key,一个value？
+
                     for(String event:events){
                         if(event.equals(key)){
+                            logger.info(key);
                             continue;
                         }
-                        EventModel eventModel=JSON.parseObject(event,EventModel.class);
+                        logger.info("POP:"+event);
+                        EventModel eventModel=JSON.parseObject(event,EventModel.class);///////////////wong出错
+                        logger.info(""+eventModel.getEventType().getValue());
                         if(!config.containsKey(eventModel.getEventType())){
                             logger.error("无法识别事件");
                             continue;

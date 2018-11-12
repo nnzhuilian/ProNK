@@ -19,8 +19,8 @@ public class UserService {
     @Autowired
     LoginTicketDAO loginTicketDAO;
 
-    public Map<String,String> register(String username,String password){
-        Map<String,String> map=new HashMap<String, String>();
+    public Map<String,Object> register(String username,String password){
+        Map<String,Object> map=new HashMap<String, Object>();
         if((StringUtils.isBlank(username))||(StringUtils.isBlank(password))){
             map.put("msg","用户名或密码不能为空");
             return map;
@@ -42,8 +42,8 @@ public class UserService {
 
         return map;
     }
-    public Map<String ,String> login(String username,String password){
-        Map<String,String> map=new HashMap<String,String>();
+    public Map<String ,Object> login(String username,String password){
+        Map<String,Object> map=new HashMap<String,Object>();
         if((StringUtils.isBlank(username))||(StringUtils.isBlank(password))){
             map.put("msg","用户名或密码不能为空");
             return map;
@@ -61,6 +61,7 @@ public class UserService {
         }
         String ticket=addLoginTicket(user.getId());
         map.put("ticket",ticket);
+        map.put("userId",user.getId());
         return map;
     }
     public User getUser(int id){

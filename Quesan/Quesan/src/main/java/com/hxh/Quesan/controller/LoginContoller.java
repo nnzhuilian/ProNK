@@ -1,5 +1,8 @@
 package com.hxh.Quesan.controller;
 
+import com.hxh.Quesan.async.EventModel;
+import com.hxh.Quesan.async.EventProducer;
+import com.hxh.Quesan.async.EventType;
 import com.hxh.Quesan.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +24,8 @@ public class LoginContoller {
     private static final Logger logger=LoggerFactory.getLogger(IndexController.class);
 @Autowired
     UserService userService;
+@Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path={"/reg/"},method = {RequestMethod.POST})
     public String register(Model model,
@@ -30,10 +35,10 @@ public class LoginContoller {
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse httpServletResponse){
         try {
-            Map<String, String> map = userService.register(username, password);
+            Map<String, Object> map = userService.register(username, password);
 
             if(map.containsKey("ticket")){
-                Cookie cookie=new Cookie("ticket",map.get("ticket"));
+                Cookie cookie=new Cookie("ticket",(String) map.get("ticket"));
                 cookie.setPath("/");
                 if(rememberme){
                     cookie.setMaxAge(3600*24*5);
@@ -60,7 +65,7 @@ public class LoginContoller {
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse httpServletResponse){
         try {
-            Map<String, String> map = userService.login(username, password);
+            Map<String, Object> map = userService.login(username, password);
 
             if(map.containsKey("ticket")){
                 Cookie cookie=new Cookie("ticket",map.get("ticket").toString());
@@ -69,6 +74,11 @@ public class LoginContoller {
                     cookie.setMaxAge(3600*24*5);
                 }
                 httpServletResponse.addCookie(cookie);
+
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                        .setExt("username",username).setExt("email","609117168@qq.com")
+                        .setActorId((int)map.get("userId")));
+
                 if(StringUtils.isNotBlank(next)){
                     return "redirect:"+next;
                 }

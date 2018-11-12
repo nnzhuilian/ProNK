@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 public class EventProducer {
     @Autowired
     JedisAdapter jedisAdapter;
-   // private static final Logger logger=LoggerFactory.getLogger(EventProducer.class);
+    private static final Logger logger=LoggerFactory.getLogger(EventProducer.class);
     public boolean fireEvent(EventModel eventModel){
 
         try{
             String key=RedisKey.getEventqueueKey();
-            String json=JSONObject.toJSONString(eventModel);
+            String json=JSONObject.toJSONString(eventModel);//一定要set和get齐全
+            logger.info(key+"点赞生产"+json);
             jedisAdapter.lpush(key,json);
             return true;
         }catch (Exception e){
