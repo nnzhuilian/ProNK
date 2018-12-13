@@ -8,7 +8,9 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Transaction;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class JedisAdapter implements InitializingBean {
@@ -136,14 +138,65 @@ private JedisPool jedisPool;
         }
     }
 
-    public Transaction getMulti(Jedis jedis){
+    public Transaction multi(Jedis jedis){
         try{
             return jedis.multi();
         }catch (Exception e){
-            return null;
+            logger.error("事務開啓異常！");
+        }finally {
+
         }
+        return null;
     }
 
+    public  List<Object> exec(Transaction tx,Jedis jedis){
+    try{
+        return tx.exec();
+    }catch (Exception e){
+        logger.error("添加事务exec异常："+e.getMessage());
+    }finally {
+        if(tx!=null){
+            try{
+                tx.close();
+            }catch (IOException e){
 
+            }
+        }
+        if(jedis!=null){
+            jedis.close();
+        }
+    }
+    return null;
+    }
+
+    public Set<String> revzrange(String key, int start, int end){
+    Jedis jedis=null;
+    try{
+        jedis=jedisPool.getResource();
+        return jedis.zrevrange(key,start,end);
+    }catch (Exception e){
+        logger.error("发生异常"+e.getMessage());
+    }finally {
+        if(jedis!=null){
+            jedis.close();
+        }
+    }
+    return null;
+    }
+
+    public long zcard(String key){
+        Jedis jedis=null;
+        try{
+            jedis=jedisPool.getResource();
+            return jedis.zcard(key);
+        }catch (Exception e){
+            logger.error("发生异常"+e.getMessage());
+        }finally {
+            if(jedis!=null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
 
 }
