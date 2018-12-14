@@ -159,7 +159,7 @@ private JedisPool jedisPool;
             try{
                 tx.close();
             }catch (IOException e){
-
+                logger.error("发生异常："+e.getMessage());
             }
         }
         if(jedis!=null){
@@ -169,7 +169,7 @@ private JedisPool jedisPool;
     return null;
     }
 
-    public Set<String> revzrange(String key, int start, int end){
+    public Set<String> revzrange(String key, int start, int end){//集合反向排序
     Jedis jedis=null;
     try{
         jedis=jedisPool.getResource();
@@ -184,7 +184,7 @@ private JedisPool jedisPool;
     return null;
     }
 
-    public long zcard(String key){
+    public long zcard(String key){//集合中有多少数字
         Jedis jedis=null;
         try{
             jedis=jedisPool.getResource();
@@ -197,6 +197,20 @@ private JedisPool jedisPool;
             }
         }
         return 0;
+    }
+    public Double zscore(String key,String member){
+        Jedis jedis=null;
+        try{
+            jedis=jedisPool.getResource();
+            return jedis.zscore(key,member);
+        }catch (Exception e){
+            logger.error("发生异常："+e.getMessage());
+        }finally {
+            if(jedis!=null){
+                jedis.close();
+            }
+        }
+        return null;
     }
 
 }

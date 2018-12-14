@@ -2,8 +2,10 @@ package com.hxh.Quesan;
 
 import com.hxh.Quesan.dao.QuestionDAO;
 import com.hxh.Quesan.dao.UserDAO;
+import com.hxh.Quesan.model.EntityType;
 import com.hxh.Quesan.model.Question;
 import com.hxh.Quesan.model.User;
+import com.hxh.Quesan.service.FollowService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,8 @@ public class initDatabaseTest {
 	UserDAO userDAO;
 	@Autowired
 	QuestionDAO questionDAO;
+	@Autowired
+	FollowService followService;
 	@Test
 	public void initDatabase() {
 		Random r=new Random();
@@ -34,6 +38,10 @@ public class initDatabaseTest {
 			user.setSalt("");
 			userDAO.addUser(user);
 
+			//互相关注
+			for(int j=1;j<i;j++){
+				followService.follow(EntityType.USER,i,j);
+			}
 			user.setPassword("12345");
 			userDAO.updatePassword(user);
 

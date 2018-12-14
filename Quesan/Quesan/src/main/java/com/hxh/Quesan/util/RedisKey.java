@@ -20,10 +20,10 @@ public class RedisKey {
         return BIZ_EVENTQUEUE;
     }
 
-    public static String getFollowerKey(int entityType,int entityId){
+    public static String getFollowerKey(int entityType,int entityId){//每个实体所有粉丝的Key
         return BIZ_FOLLOWER+String.valueOf(entityType)+String.valueOf(entityId);
     }
-    public static String getFolloweeKey(int userId,int entityType){
+    public static String getFolloweeKey(int userId,int entityType){//某一个用户关注的某一类实体的key
         return BIZ_FOLLOWEE+String.valueOf(userId)+String.valueOf(entityType);
     }
 
