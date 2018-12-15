@@ -110,6 +110,8 @@ public class FollowController {
     @RequestMapping(path={"/user/{uid}/followees"},method={RequestMethod.GET})
     public  String followees(Model model,@PathVariable("uid") int userId){
         List<Integer> followeeIds=followService.getFollowees(userId,EntityType.USER,0,10);
+        model.addAttribute("curUser",userService.getUser(userId));
+        model.addAttribute("followeeCount",followService.getFolloweeCount(userId,EntityType.USER));
         if(hostHolder.getUser()!=null){
             model.addAttribute("followees",getUsersInfo(hostHolder.getUser().getId(),followeeIds));
         }else{
@@ -121,6 +123,8 @@ public class FollowController {
     @RequestMapping(path={"/user/{uid}/followers"},method={RequestMethod.GET})
     public  String followers(Model model,@PathVariable("uid") int userId){
         List<Integer> followerIds=followService.getFollowers(EntityType.USER,userId,0,10);
+        model.addAttribute("curUser",userService.getUser(userId));
+        model.addAttribute("followerCount",followService.getFollowerCount(EntityType.USER,userId));
         if(hostHolder.getUser()!=null){
             model.addAttribute("followers",getUsersInfo(hostHolder.getUser().getId(),followerIds));
         }else{

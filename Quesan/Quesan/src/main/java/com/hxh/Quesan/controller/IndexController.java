@@ -1,7 +1,9 @@
 package com.hxh.Quesan.controller;
 
+import com.hxh.Quesan.model.EntityType;
 import com.hxh.Quesan.model.Question;
 import com.hxh.Quesan.model.ViewObject;
+import com.hxh.Quesan.service.FollowService;
 import com.hxh.Quesan.service.QuestionService;
 import com.hxh.Quesan.service.UserService;
 import org.slf4j.Logger;
@@ -23,6 +25,8 @@ public class IndexController {
     UserService userService;
 @Autowired
     QuestionService questionService;
+@Autowired
+    FollowService followService;
 
 private  List<ViewObject> getVos(int userId,int offset,int limit){
     List<Question> ques=questionService.getLatestQuestion(userId,offset,limit);
@@ -31,6 +35,7 @@ private  List<ViewObject> getVos(int userId,int offset,int limit){
         ViewObject vo=new ViewObject();
         vo.set("question",que);
         vo.set("user",userService.getUser(que.getUserId()));
+        vo.set("followCount",followService.getFollowerCount(EntityType.Comment_to_Question,que.getId()));
         vos.add(vo);
     }
     return  vos;

@@ -55,6 +55,9 @@ public class initDatabaseTest {
 			question.setContent(String.format("zyl%dboyunjianriweilaikeqi",i));
 			questionDAO.addQuestion(question);
 			//questionDAO.selectLatestQuestions(3,2,2);
+/*			for(int j=1;j<i;j++){
+				followService.follow(EntityType.Comment_to_Question,i,j);
+			}*/
 		}
 		Assert.assertEquals("12345",userDAO.selectById(1).getPassword());
 		userDAO.deleteById(1);
