@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 /**
  * Created by nowcoder on 2016/7/3.
  */
@@ -21,5 +23,13 @@ public class Jsonpro {
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("code",code);
         return jsonObject.toJSONString();
+    }
+    public static String getJsonString(int code, Map<String, Object> map) {
+        JSONObject sonObject = new JSONObject();
+        sonObject.put("code", code);
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            sonObject.put(entry.getKey(), entry.getValue());
+        }
+        return sonObject.toJSONString();
     }
 }
