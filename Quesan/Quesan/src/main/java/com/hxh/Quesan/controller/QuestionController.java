@@ -1,10 +1,7 @@
 package com.hxh.Quesan.controller;
 
 import com.hxh.Quesan.model.*;
-import com.hxh.Quesan.service.CommentService;
-import com.hxh.Quesan.service.LikeService;
-import com.hxh.Quesan.service.QuestionService;
-import com.hxh.Quesan.service.UserService;
+import com.hxh.Quesan.service.*;
 import com.hxh.Quesan.util.Jsonpro;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +26,8 @@ public class QuestionController {
     CommentService commentService;
     @Autowired
     LikeService likeService;
+    @Autowired
+    FollowService followService;
     private static final Logger logger=LoggerFactory.getLogger(QuestionController.class);
     @RequestMapping(value = {"question/add"},method = RequestMethod.POST)
     @ResponseBody
@@ -72,6 +71,17 @@ public class QuestionController {
         Vos.add(vo);
         }
         model.addAttribute("comments",Vos);
+        List<Integer> followUsersId = followService.getFollowers(EntityType.Comment_to_Question,qid,10);
+        List<User> followUsers=new ArrayList<User>();
+        for(Integer id:followUsersId){
+            followUsers.add(userService.getUser(id));
+        }
+        model.addAttribute("followUsers",followUsers);
+        if(hostHolder.getUser()==null){
+            model.addAttribute("followed",false);
+        }else{
+            model.addAttribute("followed",followService.isFollower(hostHolder.getUser().getId(),EntityType.Comment_to_Question,qid));
+        }
         return "detail";
     }
 

@@ -32,4 +32,5 @@ public class QuestionService {
     public int setCommentcount(int commentcount,int id){
         return questionDAO.updateCommentCount(commentcount,id);
     }
+
 }

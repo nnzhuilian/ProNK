@@ -31,4 +31,6 @@ public boolean deleteComment(int id){
 public Comment getCommentById(int commentid){
     return commentDAO.getCommentById(commentid);
 }
+
+public int getUserCommentCount(int userId){return commentDAO.getUserCommentCount(userId);}
 }

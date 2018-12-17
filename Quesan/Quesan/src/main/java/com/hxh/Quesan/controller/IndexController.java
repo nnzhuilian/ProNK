@@ -1,8 +1,10 @@
 package com.hxh.Quesan.controller;
 
 import com.hxh.Quesan.model.EntityType;
+import com.hxh.Quesan.model.HostHolder;
 import com.hxh.Quesan.model.Question;
 import com.hxh.Quesan.model.ViewObject;
+import com.hxh.Quesan.service.CommentService;
 import com.hxh.Quesan.service.FollowService;
 import com.hxh.Quesan.service.QuestionService;
 import com.hxh.Quesan.service.UserService;
@@ -27,6 +29,10 @@ public class IndexController {
     QuestionService questionService;
 @Autowired
     FollowService followService;
+@Autowired
+    HostHolder hostHolder;
+@Autowired
+    CommentService commentService;
 
 private  List<ViewObject> getVos(int userId,int offset,int limit){
     List<Question> ques=questionService.getLatestQuestion(userId,offset,limit);
@@ -48,7 +54,19 @@ private  List<ViewObject> getVos(int userId,int offset,int limit){
 @RequestMapping(path={"/user/{userId}"},method = {RequestMethod.GET,RequestMethod.POST})
     public String userIndex(Model model, @PathVariable("userId") int userId){
     model.addAttribute("VOS",getVos(userId,0,10));
-    return "index";
+    ViewObject profileUser=new ViewObject();
+    profileUser.set("user",userService.getUser(userId));
+    if(hostHolder.getUser()!=null){
+        profileUser.set("followed",followService.isFollower(hostHolder.getUser().getId(),EntityType.USER,userId));
+    }
+    else{
+        profileUser.set("followed",false);
+    }
+    profileUser.set("followerCount",followService.getFollowerCount(EntityType.USER,userId));
+    profileUser.set("followeeCount",followService.getFolloweeCount(userId,EntityType.USER));
+    profileUser.set("commentCount",commentService.getUserCommentCount(userId));
+    model.addAttribute("profileUser",profileUser);
+    return "profile";
 }
 
 }
