@@ -32,4 +32,11 @@ public class Jsonpro {
         }
         return sonObject.toJSONString();
     }
+    public static  String getJsonString(Map<String,String> map){
+        JSONObject jsonObject=new JSONObject();
+        for(Map.Entry<String,String> entry : map.entrySet()){
+            jsonObject.put(entry.getKey(),entry.getValue());
+        }
+        return jsonObject.toJSONString();
+    }
 }

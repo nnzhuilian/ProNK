@@ -43,7 +43,7 @@ private  List<ViewObject> getVos(int userId,int offset,int limit){
         vo.set("user",userService.getUser(que.getUserId()));
         vo.set("followCount",followService.getFollowerCount(EntityType.Comment_to_Question,que.getId()));
         if(hostHolder.getUser()!=null){
-            vo.set("followed",followService.isFollower(hostHolder.getUser().getId(),EntityType.USER,que.getId()));
+            vo.set("followed",followService.isFollower(hostHolder.getUser().getId(),EntityType.Comment_to_Question,que.getId()));
         }
         else{
             vo.set("followed",false);
