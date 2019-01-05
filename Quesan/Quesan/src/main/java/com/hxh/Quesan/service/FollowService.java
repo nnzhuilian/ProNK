@@ -23,7 +23,7 @@ public class FollowService {
         Jedis jedis=jedisAdapter.getJedis();
         Transaction tx=jedisAdapter.multi(jedis);
         tx.zadd(followerKey,date.getTime(),String.valueOf(userId));
-        tx.zadd(followeeKey,date.getTime(),String.valueOf(entityType));
+        tx.zadd(followeeKey,date.getTime(),String.valueOf(entityId));
         List<Object> ret=jedisAdapter.exec(tx,jedis);
         return (ret.size()==2)&&((Long)ret.get(0)>0)&&((Long)ret.get(1)>0);
     }
@@ -33,7 +33,7 @@ public class FollowService {
         Jedis jedis=jedisAdapter.getJedis();
         Transaction tx=jedisAdapter.multi(jedis);
         tx.zrem(followerKey,String.valueOf(userId));
-        tx.zrem(followeeKey,String.valueOf(entityType));
+        tx.zrem(followeeKey,String.valueOf(entityId));
         List<Object> ret=jedisAdapter.exec(tx,jedis);
         return (ret.size()==2)&&((Long)ret.get(0)>0)&&((Long)ret.get(1)>0);
     }

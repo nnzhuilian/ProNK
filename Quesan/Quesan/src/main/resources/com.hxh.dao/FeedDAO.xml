@@ -11,7 +11,7 @@
         FROM
         <include refid="table"/>
         WHERE id &lt; #{maxId}
-        <if test="userId != 0">/*如果用户已登录的话*/
+        <if test="userIds.size() != 0">/*如果用户已登录的话,也就是有关注的话*/
             AND user_id in 
             <foreach collection="userIds" index="index" item="item" open="(" separator="," close=")">
                 #{item}

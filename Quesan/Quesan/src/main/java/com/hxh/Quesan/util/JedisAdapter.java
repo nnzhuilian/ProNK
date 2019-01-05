@@ -130,6 +130,21 @@ private JedisPool jedisPool;
         }
         return 0;
     }
+
+    public  List<String> lrange(String key,int start,int end){
+        Jedis jedis=null;
+        try{
+            jedis=jedisPool.getResource();
+            return  jedis.lrange(key,start,end);
+        }catch(Exception e){
+            logger.error("查询失败："+e.getMessage());
+        }finally {
+            if(jedis!=null){
+                jedis.close();
+            }
+        }
+        return null;
+    }
     public Jedis getJedis(){
         try {
             return jedisPool.getResource();

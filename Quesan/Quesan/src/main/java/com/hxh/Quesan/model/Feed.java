@@ -1,5 +1,7 @@
 package com.hxh.Quesan.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.Date;
 
 public class Feed {
@@ -8,7 +10,7 @@ public class Feed {
     private int userId;
     private Date createdDate;
     private String data;//用于存储Json，因为每种新鲜事的类型都不一样，需要的参数都不一样，因此存储在Json中。
-
+    private JSONObject dataJSON=null;
     public int getId() {
         return id;
     }
@@ -47,5 +49,10 @@ public class Feed {
 
     public void setData(String data) {
         this.data = data;
+        dataJSON = JSONObject.parseObject(data);
+    }
+
+    public String get(String key){//把data中的值传入
+        return dataJSON == null? null:dataJSON.getString(key);//////??
     }
 }

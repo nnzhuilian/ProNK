@@ -43,7 +43,7 @@ public class FollowController {
         }
         boolean ret=followService.follow(EntityType.USER,userId,hostHolder.getUser().getId());
         eventProducer.fireEvent(new EventModel(EventType.FOLLOW).setActorId(hostHolder.getUser().getId())
-                .setEntityType(EntityType.USER).setEntityOwnerId(userId));
+                .setEntityType(EntityType.USER).setEntityOwnerId(userId).setEntityId(userId));
         return Jsonpro.getJsonString(ret?0:1,String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(),EntityType.USER)));
     }
 
@@ -55,7 +55,7 @@ public class FollowController {
         }
         boolean ret=followService.unfollow(EntityType.USER,userId,hostHolder.getUser().getId());
         eventProducer.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(hostHolder.getUser().getId())
-        .setEntityType(EntityType.USER).setEntityOwnerId(userId));
+        .setEntityType(EntityType.USER).setEntityOwnerId(userId).setEntityId(userId));
         return Jsonpro.getJsonString(ret?0:1,String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(),EntityType.USER)));
     }
 
@@ -72,7 +72,7 @@ public class FollowController {
 
         boolean ret=followService.follow(EntityType.Comment_to_Question,questionId,hostHolder.getUser().getId());
         eventProducer.fireEvent(new EventModel(EventType.FOLLOW).setActorId(hostHolder.getUser().getId())
-                .setEntityType(EntityType.Comment_to_Question).setEntityOwnerId(q.getUserId()));
+                .setEntityType(EntityType.Comment_to_Question).setEntityId(questionId).setEntityOwnerId(q.getUserId()));
 
         Map<String,Object> info=new HashMap<String, Object>();
         info.put("headUrl",hostHolder.getUser().getHeadUrl());
@@ -96,7 +96,7 @@ public class FollowController {
 
         boolean ret = followService.unfollow(EntityType.Comment_to_Question, questionId, hostHolder.getUser().getId());
         eventProducer.fireEvent(new EventModel(EventType.FOLLOW).setActorId(hostHolder.getUser().getId())
-                .setEntityType(EntityType.Comment_to_Question).setEntityOwnerId(q.getUserId()));
+                .setEntityType(EntityType.Comment_to_Question).setEntityId(questionId).setEntityOwnerId(q.getUserId()));
 
         Map<String, Object> info = new HashMap<String, Object>();
         info.put("headUrl", hostHolder.getUser().getHeadUrl());

@@ -8,9 +8,12 @@ import com.hxh.Quesan.model.Feed;
 import com.hxh.Quesan.model.Question;
 import com.hxh.Quesan.model.User;
 import com.hxh.Quesan.service.FeedService;
+import com.hxh.Quesan.service.FollowService;
 import com.hxh.Quesan.service.QuestionService;
 import com.hxh.Quesan.service.UserService;
+import com.hxh.Quesan.util.JedisAdapter;
 import com.hxh.Quesan.util.Jsonpro;
+import com.hxh.Quesan.util.RedisKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,10 @@ public class FeedHandler implements EventHandler {
     QuestionService questionService;
     @Autowired
     FeedService feedService;
+    @Autowired
+    FollowService followService;
+    @Autowired
+    JedisAdapter jedisAdapter;
     private String feedDataBuilder(EventModel event){
 
         Map<String,String> map=new HashMap<String,String>();
@@ -38,7 +45,7 @@ public class FeedHandler implements EventHandler {
         map.put("headUrl",actor.getHeadUrl());
         map.put("userName",actor.getName());
         if(event.getEventType()==EventType.COMMENT||(event.getEventType()==EventType.FOLLOW&&event.getEntityType()==EntityType.Comment_to_Question)){
-            Question question=questionService.getQuestion(event.getEntityOwnerId());
+            Question question=questionService.getQuestion(event.getEntityId());
             if(question==null){
                 logger.info("执行do");return null;
             }
@@ -61,6 +68,14 @@ public class FeedHandler implements EventHandler {
         }
 
         feedService.addFeed(feed);
+
+        //给粉丝推事件
+        List<Integer> followers=followService.getFollowers(EntityType.USER, event.getActorId(),Integer.MAX_VALUE);
+        followers.add(0);
+        for(int follower:followers){
+            String timelineKey=RedisKey.getTimelineKey(follower);
+            jedisAdapter.lpush(timelineKey,String.valueOf(feed.getId()));
+        }
     }
 
     @Override

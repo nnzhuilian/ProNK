@@ -1,5 +1,8 @@
 package com.hxh.Quesan.controller;
 
+import com.hxh.Quesan.async.EventModel;
+import com.hxh.Quesan.async.EventProducer;
+import com.hxh.Quesan.async.EventType;
 import com.hxh.Quesan.model.Comment;
 import com.hxh.Quesan.model.EntityType;
 import com.hxh.Quesan.model.HostHolder;
@@ -25,6 +28,8 @@ public class CommentController {
     HostHolder hostHolder;
     @Autowired
     QuestionService questionService;
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(path={"/addComment"},method = RequestMethod.POST)
     public String addComment(@RequestParam("questionId") int questionId,@RequestParam("content") String content){
         try{
@@ -41,7 +46,10 @@ public class CommentController {
         comment.setCreatedDate(new Date());
         commentService.addComment(comment);
         questionService.setCommentcount(commentService.getCommentCount(questionId,EntityType.Comment_to_Question),questionId);
-    }catch (Exception e){
+        eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
+                    .setEntityId(questionId));
+
+        }catch (Exception e){
             logger.error("添加异常"+e.getMessage());
         }
         return "redirect:/question/"+questionId;
