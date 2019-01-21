@@ -1,4 +1,4 @@
-package com.hxh.Quesan;
+/*package com.hxh.Quesan;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -16,4 +16,4 @@ public class JSONtest {
         EventModel eventModel = JSON.parseObject("{\"actorId\":12,\"entityId\":2,\"entityOwnerId\":3,\"entityType\":2,\"eventType\":\"LIKE\",\"exts\":{\"questionId\":\"10\"}}", EventModel.class);
     System.out.println(eventModel.getEventType().getValue());
 }
-}
+}*/

@@ -6,7 +6,7 @@
 	<groupId>com.hxh</groupId>
 	<artifactId>Quesan</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>Quesan</name>
 	<description>Demo project for Spring Boot</description>
@@ -79,6 +79,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.solr/solr-solrj -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>7.6.0</version>
 		</dependency>
 	</dependencies>
 	
