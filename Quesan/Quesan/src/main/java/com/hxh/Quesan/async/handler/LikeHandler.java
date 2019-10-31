@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Component
 public class LikeHandler implements EventHandler {
     @Autowired
@@ -32,6 +35,8 @@ public class LikeHandler implements EventHandler {
         User user=userService.getUser(event.getActorId());
         message.setContent("用户:"+user.getName()+"赞了你http://127.0.0.1:8080/question/"+event.getEntityId()+"的回答");
         messageService.addMessage(message);
+        ExecutorService th=Executors.newFixedThreadPool(10);
+
     }
 
     @Override
